@@ -1,8 +1,8 @@
 package org.nomolang.intellij
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.execution.configurations.PathEnvironmentVariableUtil
 import com.intellij.openapi.project.Project
-import com.intellij.util.io.PathEnvironmentVariableUtil
 import com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider
 
 /**
