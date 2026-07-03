@@ -6,7 +6,7 @@
 
 ## Features
 
-- Diagnostics, completion and semantic highlighting via the
+- Diagnostics, completion, formatting and semantic highlighting via the
   [`nomo-lsp`](https://github.com/nomo-lang/nomo-lsp) language server
 - `.nomo` file type registration
 

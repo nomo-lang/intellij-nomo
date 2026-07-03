@@ -4,8 +4,8 @@
     <vendor url="https://github.com/nomo-lang">nomo-lang</vendor>
 
     <description><![CDATA[
-        Nomo language support for JetBrains IDEs: diagnostics, completion and
-        semantic highlighting powered by the <code>nomo-lsp</code> language server
+        Nomo language support for JetBrains IDEs: diagnostics, completion,
+        formatting and semantic highlighting powered by the <code>nomo-lsp</code> language server
         through <a href="https://github.com/redhat-developer/lsp4ij">LSP4IJ</a>.
     ]]></description>
 
@@ -28,7 +28,7 @@
             factoryClass="org.nomolang.intellij.NomoLanguageServerFactory">
             <description><![CDATA[
                 Nomo language server (<code>nomo-lsp</code>). Provides diagnostics,
-                completion and semantic tokens for <code>.nomo</code> files.
+                completion, formatting and semantic tokens for <code>.nomo</code> files.
             ]]></description>
         </server>
         <languageMapping language="Nomo" serverId="nomo" languageId="nomo"/>
