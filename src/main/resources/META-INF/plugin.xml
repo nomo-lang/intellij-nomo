@@ -5,8 +5,8 @@
 
     <description><![CDATA[
         Nomo language support for JetBrains IDEs: diagnostics, completion, hover,
-        go-to-definition, references, rename, formatting and semantic highlighting
-        powered by the <code>nomo-lsp</code> language server through
+        workspace symbols, go-to-definition, references, rename, formatting and
+        semantic highlighting powered by the <code>nomo-lsp</code> language server through
         <a href="https://github.com/redhat-developer/lsp4ij">LSP4IJ</a>.
     ]]></description>
 
@@ -32,8 +32,8 @@
             factoryClass="org.nomolang.intellij.NomoLanguageServerFactory">
             <description><![CDATA[
                 Nomo language server (<code>nomo-lsp</code>). Provides diagnostics,
-                completion, hover, go-to-definition, references, rename, formatting
-                and semantic tokens for <code>.nomo</code> files.
+                completion, hover, workspace symbols, go-to-definition, references,
+                rename, formatting and semantic tokens for <code>.nomo</code> files.
             ]]></description>
         </server>
         <languageMapping language="Nomo" serverId="nomo" languageId="nomo"/>
