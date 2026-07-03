@@ -91,6 +91,16 @@ class NomoLexer : LexerBase() {
     }
 
     private fun scanSymbol(): IElementType {
+        val three = if (tokenStart + 2 < endOffset) {
+            buffer.subSequence(tokenStart, tokenStart + 3).toString()
+        } else {
+            ""
+        }
+        if (three in THREE_CHAR_OPERATORS) {
+            tokenEnd = tokenStart + 3
+            return NomoTokenTypes.OPERATOR
+        }
+
         val two = if (tokenStart + 1 < endOffset) {
             buffer.subSequence(tokenStart, tokenStart + 2).toString()
         } else {
@@ -103,7 +113,7 @@ class NomoLexer : LexerBase() {
 
         tokenEnd = tokenStart + 1
         return when (buffer[tokenStart]) {
-            '+', '*', '=', '!', '<', '>', '?', '-' -> NomoTokenTypes.OPERATOR
+            '+', '-', '*', '/', '%', '=', '!', '<', '>', '?', '&', '|', '^' -> NomoTokenTypes.OPERATOR
             '.', ',', ':', '(', ')', '{', '}' -> NomoTokenTypes.PUNCTUATION
             else -> TokenType.BAD_CHARACTER
         }
@@ -169,6 +179,29 @@ class NomoLexer : LexerBase() {
             "continue",
             "defer",
         )
-        val TWO_CHAR_OPERATORS = setOf("==", "!=", "<=", ">=", "->", "=>")
+        val THREE_CHAR_OPERATORS = setOf("&^=", "<<=", ">>=")
+        val TWO_CHAR_OPERATORS = setOf(
+            "==",
+            "!=",
+            "<=",
+            ">=",
+            "->",
+            "=>",
+            "+=",
+            "-=",
+            "*=",
+            "/=",
+            "%=",
+            "&=",
+            "^=",
+            "|=",
+            "++",
+            "--",
+            "&&",
+            "||",
+            "&^",
+            "<<",
+            ">>",
+        )
     }
 }
