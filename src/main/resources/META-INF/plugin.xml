@@ -19,6 +19,9 @@
             implementationClass="org.nomolang.intellij.NomoFileType"
             fieldName="INSTANCE"
             extensions="nomo"/>
+        <syntaxHighlighterFactory
+            language="Nomo"
+            implementationClass="org.nomolang.intellij.NomoSyntaxHighlighterFactory"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
