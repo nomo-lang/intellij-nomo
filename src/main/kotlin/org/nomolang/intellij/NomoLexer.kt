@@ -41,6 +41,7 @@ class NomoLexer : LexerBase() {
         tokenType = when {
             ch.isWhitespace() -> scanWhile { it.isWhitespace() }.also { tokenEnd = it }.let { TokenType.WHITE_SPACE }
             ch == '/' && peek(1) == '/' -> scanLineComment()
+            ch == '/' && peek(1) == '*' -> scanBlockComment()
             ch == '"' -> scanString()
             ch == '\'' -> scanChar()
             ch.isDigit() -> scanNumber()
@@ -55,6 +56,24 @@ class NomoLexer : LexerBase() {
 
     private fun scanLineComment(): IElementType {
         tokenEnd = scanWhile { it != '\n' && it != '\r' }
+        return NomoTokenTypes.COMMENT
+    }
+
+    private fun scanBlockComment(): IElementType {
+        var index = tokenStart + 2
+        var depth = 1
+        while (index < endOffset && depth > 0) {
+            if (buffer[index] == '/' && index + 1 < endOffset && buffer[index + 1] == '*') {
+                depth++
+                index += 2
+            } else if (buffer[index] == '*' && index + 1 < endOffset && buffer[index + 1] == '/') {
+                depth--
+                index += 2
+            } else {
+                index++
+            }
+        }
+        tokenEnd = index
         return NomoTokenTypes.COMMENT
     }
 
