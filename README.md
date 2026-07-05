@@ -6,9 +6,11 @@
 
 ## Features
 
-- Diagnostics, completion, hover, workspace symbols, go-to-definition,
-  references, rename, quick fixes, inlay hints, formatting and semantic highlighting via the
+- Diagnostics, completion, hover, document/workspace symbols, go-to-definition,
+  references, rename, formatting and semantic highlighting via the
   [`nomo-lsp`](https://github.com/nomo-lang/nomo-lsp) language server
+- Quick fixes for compiler suggestions, missing imports and module/package mismatches
+- Inlay hints for inferred `let` binding types and same-file function/method parameter names
 - `.nomo` file type registration
 
 ## Requirements
