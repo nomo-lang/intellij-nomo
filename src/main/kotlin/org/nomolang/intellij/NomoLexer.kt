@@ -134,7 +134,7 @@ class NomoLexer : LexerBase() {
         tokenEnd = tokenStart + 1
         return when (buffer[tokenStart]) {
             '+', '-', '*', '/', '%', '=', '!', '<', '>', '?', '&', '|', '^' -> NomoTokenTypes.OPERATOR
-            '.', ',', ':', '(', ')', '{', '}' -> NomoTokenTypes.PUNCTUATION
+            '#', '.', ',', ':', '(', ')', '[', ']', '{', '}' -> NomoTokenTypes.PUNCTUATION
             else -> TokenType.BAD_CHARACTER
         }
     }
