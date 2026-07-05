@@ -104,6 +104,7 @@ class NomoLexer : LexerBase() {
         val text = buffer.subSequence(tokenStart, tokenEnd).toString()
         return when {
             text in KEYWORDS -> NomoTokenTypes.KEYWORD
+            text in PRIMITIVE_TYPES -> NomoTokenTypes.TYPE
             text.firstOrNull()?.isUpperCase() == true -> NomoTokenTypes.TYPE
             else -> NomoTokenTypes.IDENTIFIER
         }
@@ -200,6 +201,16 @@ class NomoLexer : LexerBase() {
             "break",
             "continue",
             "defer",
+        )
+        val PRIMITIVE_TYPES = setOf(
+            "bool",
+            "i32",
+            "i64",
+            "u32",
+            "u64",
+            "f64",
+            "char",
+            "string",
         )
         val THREE_CHAR_OPERATORS = setOf("&^=", "<<=", ">>=")
         val TWO_CHAR_OPERATORS = setOf(
