@@ -9,6 +9,7 @@ object NomoTokenTypes {
     val STRING = token("STRING")
     val NUMBER = token("NUMBER")
     val COMMENT = token("COMMENT")
+    val ATTRIBUTE = token("ATTRIBUTE")
     val OPERATOR = token("OPERATOR")
     val PUNCTUATION = token("PUNCTUATION")
 

@@ -44,6 +44,7 @@ class NomoLexer : LexerBase() {
             ch == '/' && peek(1) == '*' -> scanBlockComment()
             ch == '"' -> scanString()
             ch == '\'' -> scanChar()
+            ch == '#' && peek(1) == '[' -> scanAttribute()
             ch.isDigit() -> scanNumber()
             isIdentifierStart(ch) -> scanIdentifier()
             else -> scanSymbol()
@@ -85,6 +86,22 @@ class NomoLexer : LexerBase() {
     private fun scanChar(): IElementType {
         tokenEnd = scanQuoted('\'')
         return NomoTokenTypes.STRING
+    }
+
+    private fun scanAttribute(): IElementType {
+        var index = tokenStart + 2
+        while (index < endOffset) {
+            val current = buffer[index]
+            index++
+            if (current == ']') {
+                break
+            }
+            if (current == '\n' || current == '\r') {
+                break
+            }
+        }
+        tokenEnd = index
+        return NomoTokenTypes.ATTRIBUTE
     }
 
     private fun scanNumber(): IElementType {

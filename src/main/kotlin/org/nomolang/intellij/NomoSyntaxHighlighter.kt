@@ -19,6 +19,7 @@ class NomoSyntaxHighlighter : SyntaxHighlighterBase() {
                 NomoTokenTypes.STRING -> STRING
                 NomoTokenTypes.NUMBER -> NUMBER
                 NomoTokenTypes.COMMENT -> COMMENT
+                NomoTokenTypes.ATTRIBUTE -> ATTRIBUTE
                 NomoTokenTypes.OPERATOR -> OPERATOR
                 NomoTokenTypes.PUNCTUATION -> PUNCTUATION
                 TokenType.BAD_CHARACTER -> BAD_CHARACTER
@@ -37,6 +38,8 @@ class NomoSyntaxHighlighter : SyntaxHighlighterBase() {
             TextAttributesKey.createTextAttributesKey("NOMO_NUMBER", DefaultLanguageHighlighterColors.NUMBER)
         val COMMENT: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("NOMO_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
+        val ATTRIBUTE: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("NOMO_ATTRIBUTE", DefaultLanguageHighlighterColors.METADATA)
         val OPERATOR: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("NOMO_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
         val PUNCTUATION: TextAttributesKey =
