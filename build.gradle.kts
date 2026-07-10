@@ -1,9 +1,11 @@
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+
 plugins {
     id("java")
     // Kotlin 2.3.20 is fully supported on Gradle 9.5.x.
     id("org.jetbrains.kotlin.jvm") version "2.3.20"
-    // 2.16.0 is the current release and supports Gradle 9.x (min 9.0.0 since 2.12.0).
-    id("org.jetbrains.intellij.platform") version "2.16.0"
+    // The 2.x line supports Gradle 9 and IntelliJ Platform 2024.2+.
+    id("org.jetbrains.intellij.platform") version "2.18.0"
 }
 
 group = "org.nomolang"
@@ -32,6 +34,24 @@ intellijPlatform {
         ideaVersion {
             sinceBuild = "242"
             untilBuild = provider { null }
+        }
+    }
+
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+        channels = listOf("default")
+    }
+
+    signing {
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+    }
+
+    pluginVerification {
+        ides {
+            current()
+            create(IntelliJPlatformType.IntellijIdea, "2026.1.4")
         }
     }
 }

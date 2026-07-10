@@ -25,3 +25,6 @@ jobs:
 
       - name: Build plugin
         run: ./gradlew buildPlugin --no-daemon
+
+      - name: Verify plugin configuration and compatibility
+        run: ./gradlew verifyPluginProjectConfiguration verifyPlugin --no-daemon

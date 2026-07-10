@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>org.nomolang.intellij</id>
+    <id>org.nomolang.nomo</id>
     <name>Nomo</name>
     <vendor url="https://github.com/nomo-lang">nomo-lang</vendor>
 
@@ -9,6 +9,10 @@
         formatting and semantic highlighting powered by the <code>nomo-lsp</code> language server through
         <a href="https://github.com/redhat-developer/lsp4ij">LSP4IJ</a>.
     ]]></description>
+
+    <change-notes><![CDATA[
+        <p>0.1.0: Initial Nomo language support with native highlighting and nomo-lsp integration.</p>
+    ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.redhat.devtools.lsp4ij</depends>

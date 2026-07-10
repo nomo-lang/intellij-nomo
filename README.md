@@ -15,7 +15,10 @@
 
 ## Requirements
 
-Build and install the language server so it is on your `PATH`:
+Install the language server archive for your platform from the
+[`nomo-lsp` releases](https://github.com/nomo-lang/nomo-lsp/releases), extract
+it, and place the executable on your `PATH`. To build it from source, clone
+`nomo` and `nomo-lsp` as sibling repositories, then run:
 
 ```bash
 cd ../nomo-lsp
@@ -23,6 +26,13 @@ cargo install --path .
 ```
 
 The plugin looks up `nomo-lsp` on the `PATH`.
+
+## Install
+
+Release builds attach an installable `intellij-nomo-<version>.zip` archive to
+the matching GitHub release. In a JetBrains IDE, open **Settings > Plugins**,
+choose **Install Plugin from Disk**, and select that archive. After Marketplace
+publication, search for **Nomo** in the Marketplace tab instead.
 
 ## Development
 
@@ -33,3 +43,13 @@ The plugin looks up `nomo-lsp` on the `PATH`.
 
 The first build downloads the IntelliJ Platform and the LSP4IJ plugin, which can
 take a while.
+
+`verifyPlugin` runs JetBrains Plugin Verifier against the minimum targeted
+IntelliJ IDEA 2024.2 platform and IntelliJ IDEA 2026.1.4. This bounded endpoint
+matrix avoids the unbounded disk use of resolving every intermediate IDE line.
+Tag releases require a tag matching the Gradle version, such as `v0.1.0`.
+Marketplace publication uses `PUBLISH_TOKEN`, `CERTIFICATE_CHAIN`,
+`PRIVATE_KEY`, and `PRIVATE_KEY_PASSWORD`; the release workflow maps these from
+the corresponding JetBrains repository secrets before running `publishPlugin`.
+Incomplete credentials skip Marketplace publication without failing the GitHub
+release artifact.

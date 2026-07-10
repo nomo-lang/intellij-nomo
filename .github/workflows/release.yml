@@ -1,0 +1,104 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Validate tag version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: |
+          version=$(sed -n 's/^version = "\([^"]*\)"/\1/p' build.gradle.kts | head -n 1)
+          test "$GITHUB_REF_NAME" = "v$version"
+
+      - name: Test
+        run: ./gradlew test --no-daemon
+
+      - name: Build and verify plugin
+        run: ./gradlew buildPlugin verifyPluginProjectConfiguration verifyPlugin --no-daemon
+
+      - name: Upload plugin archive
+        uses: actions/upload-artifact@v7
+        with:
+          name: intellij-nomo-plugin
+          path: build/distributions/*.zip
+          if-no-files-found: error
+
+  github-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download plugin archive
+        uses: actions/download-artifact@v8
+        with:
+          name: intellij-nomo-plugin
+          path: release
+
+      - name: Create or update GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" release/* --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$GITHUB_REF_NAME" release/* \
+              --generate-notes \
+              --verify-tag \
+              --title "Nomo for JetBrains $GITHUB_REF_NAME" \
+              --repo "$GITHUB_REPOSITORY"
+          fi
+
+  publish-marketplace:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: package
+    runs-on: ubuntu-latest
+    env:
+      PUBLISH_TOKEN: ${{ secrets.JETBRAINS_MARKETPLACE_TOKEN }}
+      CERTIFICATE_CHAIN: ${{ secrets.JETBRAINS_CERTIFICATE_CHAIN }}
+      PRIVATE_KEY: ${{ secrets.JETBRAINS_PRIVATE_KEY }}
+      PRIVATE_KEY_PASSWORD: ${{ secrets.JETBRAINS_PRIVATE_KEY_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Publish signed plugin
+        if: env.PUBLISH_TOKEN != '' && env.CERTIFICATE_CHAIN != '' && env.PRIVATE_KEY != ''
+        shell: bash
+        run: ./gradlew publishPlugin --no-daemon
+
+      - name: Skip Marketplace publication without credentials
+        if: env.PUBLISH_TOKEN == '' || env.CERTIFICATE_CHAIN == '' || env.PRIVATE_KEY == ''
+        run: echo "JetBrains publishing credentials are incomplete; the plugin ZIP remains available from the GitHub release."
