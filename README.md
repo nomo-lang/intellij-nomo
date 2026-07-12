@@ -18,11 +18,12 @@
 Install the language server archive for your platform from the
 [`nomo-lsp` releases](https://github.com/nomo-lang/nomo-lsp/releases), extract
 it, and place the executable on your `PATH`. To build it from source, clone
-`nomo` and `nomo-lsp` as sibling repositories, then run:
+the `nomo-lsp` repository, then run:
 
 ```bash
-cd ../nomo-lsp
-cargo install --path .
+git clone https://github.com/nomo-lang/nomo-lsp.git
+cd nomo-lsp
+cargo install --path . --locked
 ```
 
 The plugin looks up `nomo-lsp` on the `PATH`.
