@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.nomolang"
-version = "0.1.0"
+version = "0.0.0-20260713145859"
 
 repositories {
     mavenCentral()
@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+    testImplementation(kotlin("test"))
+
     intellijPlatform {
         intellijIdeaCommunity("2024.2")
         // LSP4IJ provides the generic LSP client used to talk to nomo-lsp.

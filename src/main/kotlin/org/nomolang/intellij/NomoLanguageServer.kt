@@ -17,12 +17,11 @@ class NomoLanguageServer(project: Project) : OSProcessStreamConnectionProvider()
     }
 
     private fun resolveExecutable(): String {
-        val name = if (System.getProperty("os.name").lowercase().contains("win")) {
-            "nomo-lsp.exe"
-        } else {
-            "nomo-lsp"
-        }
+        val name = languageServerExecutableName(System.getProperty("os.name"))
         val onPath = PathEnvironmentVariableUtil.findInPath(name)
         return onPath?.absolutePath ?: name
     }
 }
+
+internal fun languageServerExecutableName(osName: String): String =
+    if (osName.lowercase().contains("win")) "nomo-lsp.exe" else "nomo-lsp"
