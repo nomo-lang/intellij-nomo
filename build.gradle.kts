@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.nomolang"
-version = "0.0.0-20260720080715"
+version = "0.0.0-20260721120555"
 
 repositories {
     mavenCentral()

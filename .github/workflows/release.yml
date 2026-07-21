@@ -50,6 +50,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
 
     steps:
       - name: Download plugin archive
@@ -57,6 +60,15 @@ jobs:
         with:
           name: intellij-nomo-plugin
           path: release
+
+      - name: Generate checksum
+        working-directory: release
+        run: sha256sum *.zip > SHA256SUMS
+
+      - name: Attest release artifact
+        uses: actions/attest@v4
+        with:
+          subject-path: release/*.zip
 
       - name: Create or update GitHub release
         env:
