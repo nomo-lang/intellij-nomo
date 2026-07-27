@@ -121,10 +121,22 @@ class NomoLexer : LexerBase() {
         val text = buffer.subSequence(tokenStart, tokenEnd).toString()
         return when {
             text in KEYWORDS -> NomoTokenTypes.KEYWORD
+            text == "task" && followedByFunctionKeyword() -> NomoTokenTypes.KEYWORD
             text in PRIMITIVE_TYPES -> NomoTokenTypes.TYPE
             text.firstOrNull()?.isUpperCase() == true -> NomoTokenTypes.TYPE
             else -> NomoTokenTypes.IDENTIFIER
         }
+    }
+
+    private fun followedByFunctionKeyword(): Boolean {
+        var index = tokenEnd
+        while (index < endOffset && buffer[index].isWhitespace()) {
+            index++
+        }
+        if (index + 2 > endOffset || buffer.subSequence(index, index + 2).toString() != "fn") {
+            return false
+        }
+        return index + 2 == endOffset || !isIdentifierPart(buffer[index + 2])
     }
 
     private fun scanSymbol(): IElementType {
@@ -198,6 +210,7 @@ class NomoLexer : LexerBase() {
             "interface",
             "extern",
             "unsafe",
+            "suspend",
             "fn",
             "struct",
             "enum",
@@ -210,7 +223,6 @@ class NomoLexer : LexerBase() {
             "let",
             "mut",
             "return",
-            "void",
             "true",
             "false",
             "for",
@@ -228,6 +240,7 @@ class NomoLexer : LexerBase() {
             "f64",
             "char",
             "string",
+            "void",
         )
         val THREE_CHAR_OPERATORS = setOf("&^=", "<<=", ">>=")
         val TWO_CHAR_OPERATORS = setOf(
