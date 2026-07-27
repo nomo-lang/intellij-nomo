@@ -11,7 +11,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <p>0.1.0: Initial Nomo language support with native highlighting and nomo-lsp integration.</p>
+        <p>0.0.0-20260721120555: Preview language support with fallback highlighting and nomo-lsp integration.</p>
     ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
